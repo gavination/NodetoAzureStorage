@@ -12,7 +12,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const csvRouter = __importStar(require("./controllers/csvRouter"));
+const dotenv = __importStar(require("dotenv"));
 // Creates a new Express app instance
+dotenv.config();
 const app = express_1.default();
 // Configures the http://localhost:5000/ route to send a text response
 app.get('/', (req, res, next) => {
