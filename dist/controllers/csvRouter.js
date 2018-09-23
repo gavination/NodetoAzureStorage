@@ -9,22 +9,21 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Storage = __importStar(require("azure-storage"));
 const path = __importStar(require("path"));
-let Token = new Storage.TokenCredential('ik5zgKhYBj6a5a1Klyn6/NvCz0hSPvWgc/LErWBk/SrtfZJBnRdwdu7bMldrnVPDlZVjD5S63CTHohRZuaGeWA==');
-let BlobService = Storage.createBlobServiceWithTokenCredential('https://sparkblobstor.blob.core.windows.net/sample-data', Token);
+const dotenv = __importStar(require("dotenv"));
+dotenv.config();
+let Token = process.env.AZURE_STORAGE_CONNECTION_STRING;
+let BlobService = Storage.createBlobService(Token);
 let ContainerName = 'sample-container';
 let DownloadFilepath = path.resolve('./samplebatchfile.csv');
-let BlobName = path.basename(DownloadFilepath, path.extname(DownloadFilepath));
+let BlobName = "samplebatchfile";
 function getCSV(req, res) {
-    //res.send('Grabbing CSV file...');
     return new Promise((resolve, reject) => {
         BlobService.getBlobToLocalFile(ContainerName, BlobName, DownloadFilepath, err => {
             if (err) {
-                //res.send('rejected')
                 reject(err);
             }
             else {
-                //resolve({ "message: `Download of '${BlobName}' complete`"}
-                resolve("Hi fam");
+                resolve({ message: `Download of '${BlobName}' complete` });
             }
         });
     });
