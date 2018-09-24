@@ -10,15 +10,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Storage = __importStar(require("azure-storage"));
 const path = __importStar(require("path"));
 const dotenv = __importStar(require("dotenv"));
+const fs = __importStar(require("fs"));
 dotenv.config();
 let Token = process.env.AZURE_STORAGE_CONNECTION_STRING;
 let BlobService = Storage.createBlobService(Token);
-let ContainerName = 'sample-container';
+let ContainerName = 'testcontainer';
 let DownloadFilepath = path.resolve('./samplebatchfile.csv');
-let BlobName = "samplebatchfile";
+let BlobName = "samplebatchfile.csv";
 function getCSV(req, res) {
     return new Promise((resolve, reject) => {
-        BlobService.getBlobToLocalFile(ContainerName, BlobName, DownloadFilepath, err => {
+        /* BlobService.getBlobToLocalFile(ContainerName, BlobName, DownloadFilepath, err => {
+             if(err) {
+                 reject(err);
+             } else {
+                 resolve({ message: `Download of '${BlobName}' complete`});
+             }
+             */
+        BlobService.getBlobToStream(ContainerName, BlobName, fs.createWriteStream(DownloadFilepath), err => {
             if (err) {
                 reject(err);
             }
