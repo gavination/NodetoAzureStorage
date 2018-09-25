@@ -6,7 +6,6 @@ import * as dotenv from "dotenv";
 import * as fs from "fs";
 import csv from "csvtojson";
 import { rejects } from "assert";
-import { resolve } from "url";
 
 dotenv.config();
 
@@ -15,7 +14,6 @@ let BlobService = Storage.createBlobService(Token);
 let ContainerName = "testcontainer";
 let DownloadFilepath = path.resolve("./samplebatchfile.csv");
 let BlobName = "samplebatchfile.csv";
-let ConvertedObject = {};
 
 export function getCSV(req: Request, res: Response) {
   return new Promise((resolve, reject) => {
