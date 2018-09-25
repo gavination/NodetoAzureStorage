@@ -6,26 +6,23 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const Storage = __importStar(require("azure-storage"));
 const path = __importStar(require("path"));
 const dotenv = __importStar(require("dotenv"));
 const fs = __importStar(require("fs"));
+const csvtojson_1 = __importDefault(require("csvtojson"));
 dotenv.config();
 let Token = process.env.AZURE_STORAGE_CONNECTION_STRING;
 let BlobService = Storage.createBlobService(Token);
-let ContainerName = 'testcontainer';
-let DownloadFilepath = path.resolve('./samplebatchfile.csv');
+let ContainerName = "testcontainer";
+let DownloadFilepath = path.resolve("./samplebatchfile.csv");
 let BlobName = "samplebatchfile.csv";
 function getCSV(req, res) {
     return new Promise((resolve, reject) => {
-        /* BlobService.getBlobToLocalFile(ContainerName, BlobName, DownloadFilepath, err => {
-             if(err) {
-                 reject(err);
-             } else {
-                 resolve({ message: `Download of '${BlobName}' complete`});
-             }
-             */
         BlobService.getBlobToStream(ContainerName, BlobName, fs.createWriteStream(DownloadFilepath), err => {
             if (err) {
                 reject(err);
@@ -37,4 +34,17 @@ function getCSV(req, res) {
     });
 }
 exports.getCSV = getCSV;
+function getJSON(req, res) {
+    return new Promise((resolve) => {
+        csvtojson_1.default()
+            .fromFile(DownloadFilepath)
+            .then(result => {
+            console.log(result);
+            resolve({ result });
+        });
+    }).catch(err => {
+        Promise.reject(err);
+    });
+}
+exports.getJSON = getJSON;
 //# sourceMappingURL=csvRouter.js.map
