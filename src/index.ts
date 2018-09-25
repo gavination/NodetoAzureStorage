@@ -1,12 +1,8 @@
 import express from 'express';
 import * as csvRouter from './controllers/csvRouter'
-import * as dotenv from 'dotenv'
-
 
 // Creates a new Express app instance
-dotenv.config();
 const app = express();
-
 
 // Configures the http://localhost:5000/ route to send a text response
 app.get('/', (req, res, next) => {
@@ -17,7 +13,6 @@ app.get('/', (req, res, next) => {
             res.send(`Error: ${err}`)
         })
 });
-
 
 // Starts the app on port 5000, then calls the callback when 
 // the app successfully starts.

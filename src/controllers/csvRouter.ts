@@ -13,20 +13,14 @@ let ContainerName = 'testcontainer';
 let DownloadFilepath = path.resolve('./samplebatchfile.csv');
 let BlobName = "samplebatchfile.csv"
 
-
-
 export function getCSV(req: Request, res: Response) {
     return new Promise((resolve, reject) => {
-           BlobService.getBlobToStream(ContainerName, BlobName, fs.createWriteStream(DownloadFilepath), err => {
-            if(err) {
+        BlobService.getBlobToStream(ContainerName, BlobName, fs.createWriteStream(DownloadFilepath), err => {
+            if (err) {
                 reject(err);
             } else {
-                resolve({ message: `Download of '${BlobName}' complete`});
+                resolve({ message: `Download of '${BlobName}' complete` });
             }
-           })           
         })
+    })
 }
-
-
-
-
