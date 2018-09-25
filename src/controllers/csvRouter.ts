@@ -5,7 +5,6 @@ import * as path from "path";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import csv from "csvtojson";
-import { rejects } from "assert";
 
 dotenv.config();
 
@@ -33,7 +32,7 @@ export function getCSV(req: Request, res: Response) {
 }
 
 export function getJSON(req: Request, res: Response) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     csv()
       .fromFile(DownloadFilepath)
       .then(result => {
@@ -41,6 +40,6 @@ export function getJSON(req: Request, res: Response) {
         resolve({ result });
       });
   }).catch(err => {
-    rejects(err);
+    Promise.reject(err);
   });
 }

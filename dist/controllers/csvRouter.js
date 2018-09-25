@@ -15,14 +15,12 @@ const path = __importStar(require("path"));
 const dotenv = __importStar(require("dotenv"));
 const fs = __importStar(require("fs"));
 const csvtojson_1 = __importDefault(require("csvtojson"));
-const assert_1 = require("assert");
 dotenv.config();
 let Token = process.env.AZURE_STORAGE_CONNECTION_STRING;
 let BlobService = Storage.createBlobService(Token);
-let ContainerName = 'testcontainer';
-let DownloadFilepath = path.resolve('./samplebatchfile.csv');
+let ContainerName = "testcontainer";
+let DownloadFilepath = path.resolve("./samplebatchfile.csv");
 let BlobName = "samplebatchfile.csv";
-let ConvertedObject = {};
 function getCSV(req, res) {
     return new Promise((resolve, reject) => {
         BlobService.getBlobToStream(ContainerName, BlobName, fs.createWriteStream(DownloadFilepath), err => {
@@ -37,13 +35,15 @@ function getCSV(req, res) {
 }
 exports.getCSV = getCSV;
 function getJSON(req, res) {
-    return new Promise((resolve, reject) => {
-        csvtojson_1.default().fromFile(DownloadFilepath).then((result) => {
+    return new Promise((resolve) => {
+        csvtojson_1.default()
+            .fromFile(DownloadFilepath)
+            .then(result => {
             console.log(result);
             resolve({ result });
         });
     }).catch(err => {
-        assert_1.rejects(err);
+        Promise.reject(err);
     });
 }
 exports.getJSON = getJSON;
