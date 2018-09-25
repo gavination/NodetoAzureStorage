@@ -8,6 +8,9 @@ yarn-error.log*
 # sample csv file
 samplebatchfile.csv
 
+#dist directory
+dist
+
 # Runtime data
 pids
 *.pid
