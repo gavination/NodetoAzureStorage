@@ -1,0 +1,65 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+      {
+          "url": "https://localhost:{port}/{basePath}",
+          "description": "The local server",
+          "variables": {
+              "port": {
+                  "default": "5000"
+              },
+              "basePath": {
+                  "default": "v1"
+              }
+          }
+      }
+  ],
+  "info": {
+    "title": "Node Azure MVC API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/reports": {
+      "get": {
+        "summary": "List all reports",
+        "operationId": "getReports",
+        "tags": [
+          "reports"
+        ],
+        "parameters": [
+          
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of reports",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Reports"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Report": {
+        "required": ["id"],
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "Reports": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Report"
+        }
+      }
+    }
+  }
+}
